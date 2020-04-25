@@ -13,7 +13,7 @@ class Load extends Phaser.Scene {
         this.load.image('background', 'background with moon and planet n stars.png');
         this.load.image('menu', 'menu screen.png');
 
-        this.load.spritesheet('fly', 'Dragongirlspritesheet.PNG', {frameWidth:120, frameHeight:120, startFrame:0, endFrame:6});
+        this.load.spritesheet('fly', 'Dragongirlspritesheet.PNG', {frameWidth:120, frameHeight:120, startFrame:0, endFrame:5});
 
         //load music
         this.load.audio('menuMusic', 'Divinity.mp3');
@@ -30,7 +30,7 @@ class Load extends Phaser.Scene {
         //add menu image
         this.add.image(0, 0, 'menu').setOrigin(0).setScale(.32, .3);
 
-        //space bar is input
+        //space bar as input
         spaceBar= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
