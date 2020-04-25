@@ -14,11 +14,10 @@ class Runner extends Phaser.Scene {
         this.SCROLL_SPEED = 4;
         this.physics.world.gravity.y = 2600;
 
-        // add tile sprite
-        this.talltrees = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0);
-        this.talltrees.tileScaleX = .25;
-        this.talltrees.tileScaleY = .25;
-        console.log(this.talltrees);
+        // add background tile sprite
+        this.space = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0);
+        this.space.tileScaleX = .25;
+        this.space.tileScaleY = .25;
 
         // make ground tiles group
         this.ground = this.add.group();
@@ -38,37 +37,33 @@ class Runner extends Phaser.Scene {
         this.anims.create({
             key: 'fly',
             frames: this.anims.generateFrameNumbers('fly', {start: 0, end: 6, first:0}),
-            frameRate: 60
+            frameRate: 12
         });
-
-        // set up Phaser-provided cursor key input
-        cursors = this.input.keyboard.createCursorKeys();
 
         // add physics collider
         this.physics.add.collider(this.dragonGirl, this.ground);
         this.dragonGirl.body.collideWorldBounds = true;
 
+        //spacebar as input
         spaceBar= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
-
     }
 
 
     update() {
         // update tile sprites (tweak for more "speed")
-        this.talltrees.tilePositionX += this.SCROLL_SPEED;
+        this.space.tilePositionX += this.SCROLL_SPEED;
         this.groundScroll.tilePositionX += this.SCROLL_SPEED;
+
+        //dragonGirl can fly!
+        this.dragonGirl.anims.play('fly', true);
 
         // check if dragonGirl is grounded
 	    this.dragonGirl.isGrounded = this.dragonGirl.body.touching.down;
-	    // if so, we have jumps to spare
+	    // if so, we have a jump ready
 	    if(this.dragonGirl.isGrounded) {
-            //this.dragonGirl.anims.play('fly', true);
             this.jumping = false;
             this.jumps = 1;
-	    } else {
-	    	//this.dragonGirl.anims.play('fly', true);
-        }
+	    } 
         
         //jump
         if( this.jumps > 0 && Phaser.Input.Keyboard.DownDuration(spaceBar, 800) ) {
