@@ -8,18 +8,21 @@ class Load extends Phaser.Scene {
         this.load.path = "assets/";
         // take care of all of our asset loading now
         this.load.image('groundScroll', 'ground.png');
-        
         this.load.image('dragonGirl', 'dragongirl.png');
-        this.load.image('background', 'background with moon and planet n stars.png');
+        this.load.image('background', 'background pink stars.png');
         this.load.image('menu', 'menu screen.png');
+        this.load.image('obstacle', 'dragonGirl.png');
+        this.load.image('upGem', 'upwards gem.png');
+        this.load.image('downGem', 'downwards gem.png');
+        this.load.image('blueGem', 'gem blue 3.png');
 
         this.load.spritesheet('fly', 'Dragongirlspritesheet.PNG', {frameWidth:120, frameHeight:120, startFrame:0, endFrame:5});
 
         //load music
-        this.load.audio('menuMusic', 'Divinity.mp3');
+      /*  this.load.audio('menuMusic', 'Divinity.mp3');
         this.load.audio('playMusic', 'Forest Fracas.mp3');
         this.load.audio('gameOverMusic', 'The Icarus Requiem (main theme).mp3');
-
+*/      this.load.audio('menuMusic', 'dragonLadyTheme.wav');
     }
 
     create() {

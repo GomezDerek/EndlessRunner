@@ -14,6 +14,11 @@ class Runner extends Phaser.Scene {
         this.SCROLL_SPEED = 4;
         this.physics.world.gravity.y = 2600;
 
+        this.obstacleSpeed = -450;
+        this.ObstacleSpeedMax= -1000;
+        this.OBSTACLE_VELOCITY = -45;
+
+
         // add background tile sprite
         this.space = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0);
         this.space.tileScaleX = .25;
@@ -22,14 +27,18 @@ class Runner extends Phaser.Scene {
         // make ground tiles group
         this.ground = this.add.group();
         for(let i = 0; i < game.config.width; i += tileSize) {
-            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize, 'platformer_atlas', 'block').setScale(SCALE).setOrigin(0);
+            let groundTile = this.physics.add.sprite(i, game.config.height-tileSize, 'groundScroll').setScale(SCALE).setOrigin(0);
             groundTile.body.immovable = true;
             groundTile.body.allowGravity = false;
+            //console.log(groundTile);
+            //groundTile.scaleY = 2;
             this.ground.add(groundTile);
         }
         // put another tile sprite above the ground tiles
-        this.groundScroll = this.add.tileSprite(0, game.config.height-tileSize, game.config.width, tileSize, 'groundScroll').setOrigin(0);
+        this.groundScroll = this.add.tileSprite(0, game.config.height-1.5*tileSize, game.config.width, tileSize, 'groundScroll').setOrigin(0);
+        this.groundScroll.scaleY = 1;
 
+        console.log(this.groundScroll);
         // set up dragonGirl
         this.dragonGirl = this.physics.add.sprite(120, game.config.height/2-tileSize, 'dragonGirl');
 
@@ -37,7 +46,7 @@ class Runner extends Phaser.Scene {
         this.anims.create({
             key: 'fly',
             frames: this.anims.generateFrameNumbers('fly', {start: 0, end: 5, first:0}),
-            frameRate: 12
+            frameRate: 30
         });
 
         // add physics collider
@@ -46,10 +55,29 @@ class Runner extends Phaser.Scene {
 
         //spacebar as input
         spaceBar= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        //set up obstacle group and add first barrier to kick things off
+        this.obstacleGroup = this.add.group({
+            runChildUpdate: true                 //make sure update runs on group children
+        });
+        this.addObstacle();
     }
 
+    addObstacle() {
+        let obstacle = new Obstacles(this, this.obstacleSpeed); //create new obstacle
+        obstacle.body.allowGravity = false;
+        //obstacle.body.velocity.y = this.OBSTACLE_VELOCITY;      //LET It DEFY GRAVITY
+        this.obstacleGroup.add(obstacle);                       //add it to existing group
+    }
 
     update() {
+        /*
+        //obstacles defy gravity
+       let obstGroup = this.obstacleGroup.children.entries;
+       obstGroup.forEach(obst => {obst.body.velocity.y = this.OBSTACLE_VELOCITY; console.log(obst);});
+        */
+
+
         // update tile sprites (tweak for more "speed")
         this.space.tilePositionX += this.SCROLL_SPEED;
         this.groundScroll.tilePositionX += this.SCROLL_SPEED;
@@ -82,4 +110,5 @@ class Runner extends Phaser.Scene {
             this.dragonGirl.body.velocity.y = this.GLIDE_VELOCITY;
         }
     }
+
 }
