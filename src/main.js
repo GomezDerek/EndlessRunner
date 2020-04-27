@@ -27,7 +27,7 @@ const SCALE = 0.5;
 const tileSize = 35;
 var spaceBar;
 var music;
-const obstacleWidth = 16;
+const obstacleWidth = 100;
 const obstacleHeight = 300;
 let obstacle = null;
 let centerX = game.config.width/2;

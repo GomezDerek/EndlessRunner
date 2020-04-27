@@ -15,6 +15,8 @@ class Load extends Phaser.Scene {
         this.load.image('upGem', 'upwards gem.png');
         this.load.image('downGem', 'downwards gem.png');
         this.load.image('blueGem', 'gem blue 3.png');
+        this.load.image('blueGemClear', 'gem blue.png');
+        this.load.image('icicle', 'icicle.png');
 
         this.load.spritesheet('fly', 'Dragongirlspritesheet.PNG', {frameWidth:120, frameHeight:120, startFrame:0, endFrame:5});
 
@@ -38,7 +40,7 @@ class Load extends Phaser.Scene {
     }
 
     update() {
-        if (Phaser.Input.Keyboard.JustDown(spaceBar)) {
+        if (Phaser.Input.Keyboard.JustDown(spaceBar) && !Phaser.Input.Keyboard.UpDuration(spaceBar, 3000)) {
             //music.stop();
             this.scene.start("runnerScene");
         }

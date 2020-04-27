@@ -35,10 +35,9 @@ class Runner extends Phaser.Scene {
             this.ground.add(groundTile);
         }
         // put another tile sprite above the ground tiles
-        this.groundScroll = this.add.tileSprite(0, game.config.height-1.5*tileSize, game.config.width, tileSize, 'groundScroll').setOrigin(0);
-        this.groundScroll.scaleY = 1;
+        this.groundScroll = this.add.tileSprite(0, game.config.height-tileSize-40, game.config.width, tileSize, 'groundScroll').setOrigin(0);
+        this.groundScroll.scaleY = 2;
 
-        console.log(this.groundScroll);
         // set up dragonGirl
         this.dragonGirl = this.physics.add.sprite(120, game.config.height/2-tileSize, 'dragonGirl');
 
@@ -49,10 +48,6 @@ class Runner extends Phaser.Scene {
             frameRate: 30
         });
 
-        // add physics collider
-        this.physics.add.collider(this.dragonGirl, this.ground);
-        this.dragonGirl.body.collideWorldBounds = true;
-
         //spacebar as input
         spaceBar= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
@@ -61,22 +56,64 @@ class Runner extends Phaser.Scene {
             runChildUpdate: true                 //make sure update runs on group children
         });
         this.addObstacle();
+
+        // add physics collider
+        this.physics.add.collider(this.dragonGirl, this.ground);
+        this.dragonGirl.body.collideWorldBounds = true;
+        this.physics.add.collider(this.dragonGirl, this.obstacleGroup.children.entries);
+
+         // score display
+         this.scoreConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'center',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 200
+        }
     }
 
     addObstacle() {
         let obstacle = new Obstacles(this, this.obstacleSpeed); //create new obstacle
-        obstacle.body.allowGravity = false;
-        //obstacle.body.velocity.y = this.OBSTACLE_VELOCITY;      //LET It DEFY GRAVITY
+        obstacle.body.allowGravity = false;                     //LET IT DEFY GRAVITY   
         this.obstacleGroup.add(obstacle);                       //add it to existing group
     }
 
-    update() {
-        /*
-        //obstacles defy gravity
-       let obstGroup = this.obstacleGroup.children.entries;
-       obstGroup.forEach(obst => {obst.body.velocity.y = this.OBSTACLE_VELOCITY; console.log(obst);});
-        */
+    checkCollision(A, B) {
+        //simple AABB checking
+        if (A.x < B.x + B.width &&
+            A.x + A.width > B.x &&
+            A.y < B.y + B.height && 
+            A.height + A.y > B.y) {
+                return true;
+            } else {
+                return false;
+            }
+    }
 
+    gameOver() {
+        this.scene.start(Load.js);   
+    }
+
+    update() {
+        //collsion check
+        if(this.obstacleGroup.children.entries.map( obst => this.checkCollision(this.dragonGirl, obst)).find(element => element == true)){
+            //GAMeOVER
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', this.scoreConfig).setOrigin(0.5);
+            //RESET TO MENU SCREEN
+            this.clock = this.time.delayedCall(3000, () => {
+            this.scene.start(Load.js);
+            //add menu image
+            this.add.image(0, 0, 'menu').setOrigin(0).setScale(.32, .3);
+            this.gameOver();
+            }, null, this);
+        }
+
+        console.log(this.obstacleGroup.children.entries.map( obst => this.checkCollision(this.dragonGirl, obst)).find(element => element == true));
 
         // update tile sprites (tweak for more "speed")
         this.space.tilePositionX += this.SCROLL_SPEED;

@@ -2,7 +2,7 @@ class Obstacles extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, velocity) {
         //call Phaser Physics Sprite constructor
         //super(scene, game.config.width + obstacleWidth, Phaser.Math.Between(obstacleHeight/2, game.config.height - obstacleHeight/2), 'obstacle');
-        super(scene, game.config.width + obstacleWidth, Math.random() > .67 ? obstacleHeight/2 : game.config.height - obstacleHeight/2, 'blueGem');
+        super(scene, game.config.width + obstacleWidth, Math.random() > .67 ? obstacleHeight/2 - 30 : game.config.height - obstacleHeight/2 + 70, 'blueGemClear');
 
         //set up physics sprite
         scene.add.existing(this);          // add to existing scene, displayList, updateList
@@ -16,13 +16,17 @@ class Obstacles extends Phaser.Physics.Arcade.Sprite {
 
         //have  gems pointing up/down depending where they are
         if(this.y > game.config.height/2) {
-            this.texture.key = 'upGem';
+            //this.texture.key = 'upGem';
+            this.scaleY = Math.floor(Math.random() * (7 - 4)) + 4;
+            //this.scaleY = Math.floor(Math.random() * (2-1) + 2);
         }
         else {
-            this.texture.key = 'downGem';
+            //this.texture.key = 'downGem';
+            this.scaleY = Math.floor(Math.random() * (9 - 6)) + 6;           
+            //this.scaleY = Math.floor(Math.random() * (2-1) + 2);
         }
 
-        this.scaleY = 6;
+        //this.scaleY = 6;
     }
 
     update() {
