@@ -10,7 +10,7 @@ class Load extends Phaser.Scene {
         this.load.image('groundScroll', 'ground.png');
         this.load.image('dragonGirl', 'dragongirl.png');
         this.load.image('background', 'background pink stars.png');
-        this.load.image('menu', 'menu_screen_new.png');
+        this.load.image('menu', 'new_menu_screen.png');
         this.load.image('obstacle', 'dragonGirl.png');
         this.load.image('upGem', 'upwards gem.png');
         this.load.image('downGem', 'downwards gem.png');
@@ -19,6 +19,8 @@ class Load extends Phaser.Scene {
         this.load.image('icicle', 'icicle.png');
         this.load.image('planet', 'planet.png');
         this.load.image('moon', 'moon.png');
+        this.load.image('gameover', 'gameoverscreen.png');
+        this.load.image('fire', 'fire-orange.png');
         
 
 

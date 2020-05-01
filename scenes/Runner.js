@@ -4,6 +4,13 @@ class Runner extends Phaser.Scene {
     }
 
     create() {
+
+        // game.physics.startSystem(Phaser.Physics.ARCADE);
+        // sprite1 = game.add.sprite(150, 200, 'dragonGirl');
+        // sprite1.name = 'dragonGirl';
+        //game.physics.enable([sprite1,sprite2], Phaser.Physics.ARCADE);
+
+
         //play music
         //music = this.sound.add('playMusic');
         music.play( {loop:true} );
@@ -29,10 +36,11 @@ class Runner extends Phaser.Scene {
         this.planet.tileScaleY= 5;
         this.planet.tileScaleX= 5;
       
-        this.moon = this.add.tileSprite(100, 0, 600, 600, 'moon').setOrigin(0).setScale(.2);  //NEW
+        this.moon = this.add.tileSprite(200, 0, 600, 600, 'moon').setOrigin(0).setScale(.2);  //NEW
         this.moon.tileScaleY= 5;
         this.moon.tileScaleX= 5;
       
+       // this.fire =  this.add.tileSprite(0, 0, game.config.width, game.config.height, 'fire').setOrigin(0).setScale(.2); 
        
 
         // make ground tiles group
@@ -74,6 +82,8 @@ class Runner extends Phaser.Scene {
         this.dragonGirl.body.collideWorldBounds = true;
         this.physics.add.collider(this.dragonGirl, this.obstacleGroup.children.entries);
 
+
+
          // score display
          this.scoreConfig = {
             fontFamily: 'Courier',
@@ -88,7 +98,7 @@ class Runner extends Phaser.Scene {
             fixedWidth: 200
         }
     }
-
+ 
     
 
     addObstacle() {
@@ -111,21 +121,24 @@ class Runner extends Phaser.Scene {
 
     gameOver() {
         this.scene.start(Load.js);   
+
     }
 
     update() {
         
-        this.planet.x+= 0.5;
-        this.moon.x-= 0.2;
+        this.planet.x+= 0.6;
+        this.moon.x-= 0.3;
+
         //collsion check
         if(this.obstacleGroup.children.entries.map( obst => this.checkCollision(this.dragonGirl, obst)).find(element => element == true)){
             //GAMeOVER
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', this.scoreConfig).setOrigin(0.5);
+           this.add.image(game.config.width/2, game.config.height/2, 'gameover', this.scoreConfig).setOrigin(0.5).setScale(.45); 
+           //this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', this.scoreConfig).setOrigin(0.5); 
             //RESET TO MENU SCREEN
             this.clock = this.time.delayedCall(3000, () => {
             this.scene.start(Load.js);
             //add menu image
-            this.add.image(0, 0, 'menu').setOrigin(0).setScale(.32, .3);
+            this.add.image(0, 0, 'menu').setOrigin(0).setScale(.45, .3);
             this.gameOver();
             }, null, this);
         }

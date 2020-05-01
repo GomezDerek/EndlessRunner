@@ -4,6 +4,7 @@ class Obstacles extends Phaser.Physics.Arcade.Sprite {
         //super(scene, game.config.width + obstacleWidth, Phaser.Math.Between(obstacleHeight/2, game.config.height - obstacleHeight/2), 'obstacle');
         super(scene, game.config.width + obstacleWidth, Math.random() > .67 ? obstacleHeight/2 - 30 : game.config.height - obstacleHeight/2 + 70, 'blueGemClear');
 
+
         //set up physics sprite
         scene.add.existing(this);          // add to existing scene, displayList, updateList
         scene.physics.add.existing(this);  // add physics body
