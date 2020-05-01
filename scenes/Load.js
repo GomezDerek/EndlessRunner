@@ -10,18 +10,13 @@ class Load extends Phaser.Scene {
         this.load.image('groundScroll', 'ground.png');
         this.load.image('dragonGirl', 'dragongirl.png');
         this.load.image('background', 'background pink stars.png');
-<<<<<<< HEAD
         this.load.image('menu', 'new_menu_screen.png');
-=======
-        this.load.image('menu', 'menu screen.png');
->>>>>>> 8829a2c9bc5ad1577fde33052c63783ab77bd724
         this.load.image('obstacle', 'dragonGirl.png');
         this.load.image('upGem', 'upwards gem.png');
         this.load.image('downGem', 'downwards gem.png');
         this.load.image('blueGem', 'gem blue 3.png');
         this.load.image('blueGemClear', 'gem blue.png');
         this.load.image('icicle', 'icicle.png');
-<<<<<<< HEAD
         this.load.image('planet', 'planet.png');
         this.load.image('moon', 'moon.png');
         this.load.image('gameover', 'gameoverscreen.png');
@@ -29,8 +24,6 @@ class Load extends Phaser.Scene {
         
 
 
-=======
->>>>>>> 8829a2c9bc5ad1577fde33052c63783ab77bd724
 
         //this.load.spritesheet('fly', 'Dragongirlspritesheet.PNG', {frameWidth:120, frameHeight:120, startFrame:0, endFrame:5});
         this.load.spritesheet('fly', 'Dragongirlspritesheet_crop.png', {frameWidth:120, frameHeight:120, startFrame:0, endFrame:5});
@@ -48,11 +41,7 @@ class Load extends Phaser.Scene {
         music.play( {loop:true} );
 
         //add menu image
-<<<<<<< HEAD
         this.add.image(-2, -20, 'menu').setOrigin(0).setScale(1.35, 1.35);
-=======
-        this.add.image(0, 0, 'menu').setOrigin(0).setScale(.32, .3);
->>>>>>> 8829a2c9bc5ad1577fde33052c63783ab77bd724
 
         //space bar as input
         spaceBar= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);

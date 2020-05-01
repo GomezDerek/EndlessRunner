@@ -4,7 +4,6 @@ class Runner extends Phaser.Scene {
     }
 
     create() {
-<<<<<<< HEAD
 
         // game.physics.startSystem(Phaser.Physics.ARCADE);
         // sprite1 = game.add.sprite(150, 200, 'dragonGirl');
@@ -12,8 +11,6 @@ class Runner extends Phaser.Scene {
         //game.physics.enable([sprite1,sprite2], Phaser.Physics.ARCADE);
 
 
-=======
->>>>>>> 8829a2c9bc5ad1577fde33052c63783ab77bd724
         //play music
         //music = this.sound.add('playMusic');
         music.play( {loop:true} );
@@ -29,16 +26,12 @@ class Runner extends Phaser.Scene {
         this.OBSTACLE_VELOCITY = -45;
 
 
-<<<<<<< HEAD
       
-=======
->>>>>>> 8829a2c9bc5ad1577fde33052c63783ab77bd724
         // add background tile sprite
         this.space = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0);
         this.space.tileScaleX = .25;
         this.space.tileScaleY = .25;
 
-<<<<<<< HEAD
         this.planet = this.add.tileSprite(600, 0, 600, 600, 'planet').setOrigin(0).setScale(.2);  //NEW
         this.planet.tileScaleY= 5;
         this.planet.tileScaleX= 5;
@@ -50,8 +43,6 @@ class Runner extends Phaser.Scene {
        // this.fire =  this.add.tileSprite(0, 0, game.config.width, game.config.height, 'fire').setOrigin(0).setScale(.2); 
        
 
-=======
->>>>>>> 8829a2c9bc5ad1577fde33052c63783ab77bd724
         // make ground tiles group
         this.ground = this.add.group();
         for(let i = 0; i < game.config.width; i += tileSize) {
@@ -84,21 +75,15 @@ class Runner extends Phaser.Scene {
             runChildUpdate: true                 //make sure update runs on group children
         });
         this.addObstacle();
-<<<<<<< HEAD
         
-=======
->>>>>>> 8829a2c9bc5ad1577fde33052c63783ab77bd724
 
         // add physics collider
         this.physics.add.collider(this.dragonGirl, this.ground);
         this.dragonGirl.body.collideWorldBounds = true;
         this.physics.add.collider(this.dragonGirl, this.obstacleGroup.children.entries);
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 8829a2c9bc5ad1577fde33052c63783ab77bd724
          // score display
          this.scoreConfig = {
             fontFamily: 'Courier',
@@ -113,11 +98,8 @@ class Runner extends Phaser.Scene {
             fixedWidth: 200
         }
     }
-<<<<<<< HEAD
  
     
-=======
->>>>>>> 8829a2c9bc5ad1577fde33052c63783ab77bd724
 
     addObstacle() {
         let obstacle = new Obstacles(this, this.obstacleSpeed); //create new obstacle
@@ -139,7 +121,6 @@ class Runner extends Phaser.Scene {
 
     gameOver() {
         this.scene.start(Load.js);   
-<<<<<<< HEAD
 
     }
 
@@ -153,24 +134,11 @@ class Runner extends Phaser.Scene {
             //GAMeOVER
            this.add.image(game.config.width/2, game.config.height/2, 'gameover', this.scoreConfig).setOrigin(0.5).setScale(.45); 
            //this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', this.scoreConfig).setOrigin(0.5); 
-=======
-    }
-
-    update() {
-        //collsion check
-        if(this.obstacleGroup.children.entries.map( obst => this.checkCollision(this.dragonGirl, obst)).find(element => element == true)){
-            //GAMeOVER
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', this.scoreConfig).setOrigin(0.5);
->>>>>>> 8829a2c9bc5ad1577fde33052c63783ab77bd724
             //RESET TO MENU SCREEN
             this.clock = this.time.delayedCall(3000, () => {
             this.scene.start(Load.js);
             //add menu image
-<<<<<<< HEAD
             this.add.image(0, 0, 'menu').setOrigin(0).setScale(.45, .3);
-=======
-            this.add.image(0, 0, 'menu').setOrigin(0).setScale(.32, .3);
->>>>>>> 8829a2c9bc5ad1577fde33052c63783ab77bd724
             this.gameOver();
             }, null, this);
         }
