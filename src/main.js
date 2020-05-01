@@ -9,7 +9,11 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
+<<<<<<< HEAD
             debug: true,
+=======
+            debug: false,
+>>>>>>> 8829a2c9bc5ad1577fde33052c63783ab77bd724
             gravity: {
                 x: 0,
                 y: 0
