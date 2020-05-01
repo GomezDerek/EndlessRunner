@@ -21,7 +21,7 @@ class Load extends Phaser.Scene {
         this.load.image('moon', 'moon.png');
         this.load.image('gameover', 'gameoverscreen.png');
         this.load.image('fire', 'fire-orange.png');
-        
+	this.load.image('cloud', 'scorebg.png');        
 
 
 

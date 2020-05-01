@@ -42,6 +42,10 @@ class Runner extends Phaser.Scene {
       
        // this.fire =  this.add.tileSprite(0, 0, game.config.width, game.config.height, 'fire').setOrigin(0).setScale(.2); 
        
+	//add score background
+	this.cloud = this.add.sprite(115, 40, 'cloud');
+	//add score text
+	this.space = this.add.text(22, 24, 'Score: 0' , { fontSize: '32px', fill: '#000' });
 
         // make ground tiles group
         this.ground = this.add.group();
