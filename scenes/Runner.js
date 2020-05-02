@@ -83,8 +83,8 @@ class Runner extends Phaser.Scene {
 
         // add physics collider
         this.physics.add.collider(this.dragonGirl, this.ground);
-        //this.dragonGirl.body.collideWorldBounds = true;
-        this.physics.add.collider(this.dragonGirl, this.obstacleGroup.children.entries);
+        this.dragonGirl.body.collideWorldBounds = true;
+        //this.physics.add.collider(this.dragonGirl, this.obstacleGroup.children.entries);
 
 
 
@@ -134,20 +134,24 @@ class Runner extends Phaser.Scene {
         this.moon.x-= 0.3;
 
         //collsion check
+        
         if(this.obstacleGroup.children.entries.map( obst => this.checkCollision(this.dragonGirl, obst)).find(element => element == true)){
             //GAMeOVER
            this.add.image(game.config.width/2, game.config.height/2, 'gameover', this.scoreConfig).setOrigin(0.5).setScale(.45); 
            //this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', this.scoreConfig).setOrigin(0.5); 
-            //RESET TO MENU SCREEN
-            this.clock = this.time.delayedCall(3000, () => {
-            this.scene.start(Load.js);
+          
+           //RESET TO MENU SCREEN
+           // this.clock = this.time.delayedCall(3000, () => {
+            //this.scene.start(Load.js);
             //add menu image
-            this.add.image(0, 0, 'menu').setOrigin(0).setScale(.45, .3);
-            this.gameOver();
-            }, null, this);
+            //this.add.image(0, 0, 'menu').setOrigin(0).setScale(.45, .3);
+           // this.gameOver();
+           // }, null, this);
         }
+        
 
         console.log(this.obstacleGroup.children.entries.map( obst => this.checkCollision(this.dragonGirl, obst)).find(element => element == true));
+        //console.log(this.checkCollision(this.dragonGirl, this.obstacleGroup));
 
         // update tile sprites (tweak for more "speed")
         this.space.tilePositionX += this.SCROLL_SPEED;
