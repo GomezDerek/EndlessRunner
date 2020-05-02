@@ -83,7 +83,7 @@ class Runner extends Phaser.Scene {
 
         // add physics collider
         this.physics.add.collider(this.dragonGirl, this.ground);
-        this.dragonGirl.body.collideWorldBounds = true;
+        //this.dragonGirl.body.collideWorldBounds = true;
         this.physics.add.collider(this.dragonGirl, this.obstacleGroup.children.entries);
 
 
