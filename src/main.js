@@ -20,7 +20,7 @@ let config = {
 };
 
 //define game
-let game = new Phaser.Game(config);
+var game = new Phaser.Game(config);
 
 // global variables
 const SCALE = 0.5;

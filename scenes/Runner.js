@@ -5,7 +5,10 @@ class Runner extends Phaser.Scene {
 
     create() {
 
-        // game.physics.startSystem(Phaser.Physics.ARCADE);
+        //game.physics.startSystem(Phaser.Physics.ARCADE);
+        console.log(game);
+        //game.config.physics.startSystem(Phaser.Physics.ARCADE);
+
         // sprite1 = game.add.sprite(150, 200, 'dragonGirl');
         // sprite1.name = 'dragonGirl';
         //game.physics.enable([sprite1,sprite2], Phaser.Physics.ARCADE);
@@ -21,9 +24,9 @@ class Runner extends Phaser.Scene {
         this.SCROLL_SPEED = 4;
         this.physics.world.gravity.y = 2600;
 
-        this.obstacleSpeed = -450;
+        this.obstacleSpeed = -250;
         this.ObstacleSpeedMax= -1000;
-        this.OBSTACLE_VELOCITY = -45;
+       // this.OBSTACLE_VELOCITY = -45;
 
 
       
@@ -62,7 +65,7 @@ class Runner extends Phaser.Scene {
         this.groundScroll.scaleY = 2;
 
         // set up dragonGirl
-        this.dragonGirl = this.physics.add.sprite(120, game.config.height/2-tileSize, 'dragonGirl');
+        this.dragonGirl = this.physics.add.sprite(120, game.config.height/2-tileSize, 'dragonGirl').setOrigin(0,0);
 
         //animation config for dragonGirl
         this.anims.create({
@@ -113,14 +116,26 @@ class Runner extends Phaser.Scene {
 
     checkCollision(A, B) {
         //simple AABB checking
+        /*
         if (A.x < B.x + B.width &&
             A.x + A.width > B.x &&
-            A.y < B.y + B.height && 
-            A.height + A.y > B.y) {
+            A.y < B.y + B.height+1 && 
+            A.height + A.y >= B.y+1) {
                 return true;
             } else {
                 return false;
             }
+            */
+            if (A.x < B.x + B.width &&
+                A.x + A.width > B.x &&
+                A.y < B.y + B.height+1 && 
+                A.height + A.y > B.y+1) {
+                    return true;
+                } else {
+                    return false;
+                }
+        
+           //game.config.physics.arcade.collide(this.dragonGirl, this.obstacleGroup, this.gameOver, null, this);
     }
 
     gameOver() {
