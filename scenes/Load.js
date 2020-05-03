@@ -21,7 +21,7 @@ class Load extends Phaser.Scene {
         this.load.image('moon', 'moon.png');
         this.load.image('gameover', 'gameoverscreen.png');
         this.load.image('fire', 'fire-orange.png');
-	this.load.image('cloud', 'scorebg.png');        
+	    this.load.image('cloud', 'scorebg.png');        
 
 
 
@@ -33,6 +33,9 @@ class Load extends Phaser.Scene {
         this.load.audio('playMusic', 'Forest Fracas.mp3');
         this.load.audio('gameOverMusic', 'The Icarus Requiem (main theme).mp3');
 */      this.load.audio('menuMusic', 'dragonLadyTheme.wav');
+
+      //crash sound 
+       // this.load.audio('crashSound', 'explosion38.wav');  
     }
 
     create() {

@@ -1,32 +1,36 @@
+// Obstacles class is based off Nathan Altice's Paddle Parkour's Barrier class
 class Obstacles extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, velocity) {
-        //call Phaser Physics Sprite constructor
+    constructor(scene, velocity) {  
+        // call Phaser Physics Sprite constructor
         //super(scene, game.config.width + obstacleWidth, Phaser.Math.Between(obstacleHeight/2, game.config.height - obstacleHeight/2), 'obstacle');
-        super(scene, game.config.width + obstacleWidth, Math.random() > .67 ? obstacleHeight/2 - 30 : game.config.height - obstacleHeight/2 + 70, 'blueGemClear');
+        super(scene, game.config.width + obstacleWidth, Math.random() > .5 ? -150 : game.config.height - obstacleHeight, 'blueGemClear');
 
-        //set up physics sprite
-        scene.add.existing(this);          // add to existing scene, displayList, updateList
-        scene.physics.add.existing(this);  // add physics body
-        this.setVelocityX(velocity);       // make it go!
+        // set up physics sprite
+        scene.add.existing(this).setOrigin(0,0);          // add to existing scene, displayList, updateList
+        scene.physics.add.existing(this);                // add physics body
+        this.body.setSize(25);                           // adjust bounding box
+        this.setVelocityX(velocity);                     // make it go!
         this.setImmovable();
-        this.newObstacle = true;           // custom property to control obstacle spawning
+        this.newObstacle = true;                        // custom property to control obstacle spawning
   
         this.scene = scene;
         this.velocity = velocity;
 
-        //have  gems pointing up/down depending where they are
+        // have  gems pointing up/down depending where they are
         if(this.y > game.config.height/2) {
+            //points up
             //this.texture.key = 'upGem';
-            this.scaleY = Math.floor(Math.random() * (7 - 4)) + 4;
-            //this.scaleY = Math.floor(Math.random() * (2-1) + 2);
+            //control height of obstacle
+            this.scaleY = Math.floor(Math.random() * (12 - 8)) + 8;
         }
         else {
-            //this.texture.key = 'downGem';
-            this.scaleY = Math.floor(Math.random() * (9 - 6)) + 6;           
-            //this.scaleY = Math.floor(Math.random() * (2-1) + 2);
+            // points down
+            this.texture.key = 'downGem';
+            // control height of obstacle
+            this.scaleY = Math.floor(Math.random() * (9 - 7)) + 7;    
         }
 
-        //this.scaleY = 6;
+
     }
 
     update() {

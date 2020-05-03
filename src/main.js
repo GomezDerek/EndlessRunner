@@ -1,4 +1,37 @@
-// tame the javashrek
+///////////////////////////////////////////////////////////////
+//                                                           //
+//                     LUNAS'S ODYSSEY                       //
+//                  Completed: 05/03/2020                    //
+//                                                           //
+//                                                           //
+//  Created by:      Grecia Salazar B)                       //
+//                   Gabrielle Serna C:                      //
+//                   Derek Gomez ;P                          //
+//                                                           //
+//  Created for:     CMPM 163 Game Design Experience         //
+//                   UCSC Spring 2020                        //     
+//                                                           //                      
+///////////////////////////////////////////////////////////////
+//                                                           //
+//            WE STOLE CODE FROM THESE PLACES                // 
+//                                                           //       
+//            https://github.com/nathanaltice                //
+//            https://phaser.io/examples/v3                  //
+//            https://github.com/photonstorm/phaser          //
+//                                                           //
+//                                                           //
+//            MUSIC & SOUND:                                 //
+//            "Dragon Lady Theme" by Christina Bulosan       //
+//            cbulosann@gmail.com                            //
+//                                                           //       
+///////////////////////////////////////////////////////////////
+
+
+
+
+
+
+// "tame the javashrek" - Nathan Altice
 "use strict";
 
 // main game object
@@ -9,7 +42,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: false,
+            debug: true,
             gravity: {
                 x: 0,
                 y: 0
@@ -19,8 +52,8 @@ let config = {
     scene: [ Load, Runner ]
 };
 
-//define game
-let game = new Phaser.Game(config);
+// define game
+var game = new Phaser.Game(config);
 
 // global variables
 const SCALE = 0.5;
