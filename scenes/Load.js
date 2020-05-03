@@ -26,7 +26,7 @@ class Load extends Phaser.Scene {
 
 
         //this.load.spritesheet('fly', 'Dragongirlspritesheet.PNG', {frameWidth:120, frameHeight:120, startFrame:0, endFrame:5});
-        this.load.spritesheet('fly', 'Dragongirlspritesheet_crop.png', {frameWidth:120, frameHeight:120, startFrame:0, endFrame:5});
+        this.load.spritesheet('fly', 'Dragongirlspritesheet_crop.png', {frameWidth:85, frameHeight:120, startFrame:0, endFrame:5});
 
         //load music
       /*  this.load.audio('menuMusic', 'Divinity.mp3');
