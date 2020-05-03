@@ -20,6 +20,7 @@ class Runner extends Phaser.Scene {
      
        
         // variables and settings
+        this.gameOver = false;
         this.JUMP_VELOCITY = -500;
         this.GLIDE_VELOCITY = 0;
         this.SCROLL_SPEED = 4;
@@ -32,7 +33,8 @@ class Runner extends Phaser.Scene {
         this.planetSpeed = 0.6;
         this.moonSpeed = -0.3;
         
-
+        //restart
+        this.restartIsReady=false; 
       
         // add background tile sprite
         this.space = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0);
@@ -159,6 +161,7 @@ class Runner extends Phaser.Scene {
         this.moon.x  = game.config.width;
     }
 
+
     update() {
         //debugging area
        // console.log(this.obstacleGroup.children.entries.map( obst => this.checkCollision(this.dragonGirl, obst)).find(element => element == true));
@@ -172,67 +175,83 @@ class Runner extends Phaser.Scene {
         console.log("Dragon girl box: " + this.dragonGirl.body);
         */
         //console.log(this);
+        
 
-        //scroll background planet & moon
-        this.planet.x += this.planetSpeed;
-        this.moon.x += this.moonSpeed;
+        if(this.gameOver == false) {
+            //scroll background planet & moon
+            this.planet.x += this.planetSpeed;
+            this.moon.x += this.moonSpeed;
 
-        if(this.planet.x >= game.config.width){
-            this.resetPlanet();
-        }
-        if(this.moon.x <= 0 - this.moon.displayWidth){
-            this.resetMoon();
-        }
+            if(this.planet.x >= game.config.width){
+                this.resetPlanet();
+            }
+            if(this.moon.x <= 0 - this.moon.displayWidth){
+               this.resetMoon();
+            }
        
-        // collsion check
-        // check obstacleGroup children's collsions against character sprite
-        if( this.obstacleGroup.children.entries.map( obst => this.checkCollision(this.dragonGirl, obst)).find(element => element == true)){
-            //GAMeOVER
-           this.add.image(game.config.width/2, game.config.height/2, 'gameover', this.scoreConfig).setOrigin(0.5).setScale(.45); 
-           //this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', this.scoreConfig).setOrigin(0.5); 
-          
-           //RESET TO MENU SCREEN
-           // this.clock = this.time.delayedCall(3000, () => {
-            //this.scene.start(Load.js);
-            //add menu image
-            //this.add.image(0, 0, 'menu').setOrigin(0).setScale(.45, .3);
-           // this.gameOver();
-           // }, null, this);
-        }
+            // collsion check
+            // check obstacleGroup children's collsions against character sprite
+            if( this.obstacleGroup.children.entries.map( obst => this.checkCollision(this.dragonGirl, obst)).find(element => element == true)){
+                //GAMEOVER!!!
+                this.gameOver = true;    
+            }
+         
 
-        // update tile sprites (tweak for more "speed")
-        this.space.tilePositionX += this.SCROLL_SPEED;
-        this.groundScroll.tilePositionX += this.SCROLL_SPEED;
 
-        //dragonGirl can fly!
-        this.dragonGirl.anims.play('fly', true);
+            // update tile sprites (tweak for more "speed")
+            this.space.tilePositionX += this.SCROLL_SPEED;
+            this.groundScroll.tilePositionX += this.SCROLL_SPEED;
 
-        // check if dragonGirl is grounded
-	    this.dragonGirl.isGrounded = this.dragonGirl.body.touching.down;
-	    // if so, we have a jump ready
-	    if(this.dragonGirl.isGrounded) {
-            this.falling = false;
-            this.jumps = 1;
-	    } 
+            //dragonGirl can fly!
+            this.dragonGirl.anims.play('fly', true);
+
+            // check if dragonGirl is grounded
+	        this.dragonGirl.isGrounded = this.dragonGirl.body.touching.down;
+	        // if so, we have a jump ready
+	        if(this.dragonGirl.isGrounded) {
+                this.falling = false;
+                this.jumps = 1;
+	        } 
         
-        //jump
-        if(this.jumps > 0 && Phaser.Input.Keyboard.DownDuration(spaceBar, 800) ) {
-            this.dragonGirl.body.velocity.y = this.JUMP_VELOCITY;
-            this.falling = false;
-        }
+            //jump
+            if(this.jumps > 0 && Phaser.Input.Keyboard.DownDuration(spaceBar, 800) ) {
+                this.dragonGirl.body.velocity.y = this.JUMP_VELOCITY;
+                this.falling = false;
+            }
         
-        //letting go of the UP key pulls dragonGirl down
-        if(Phaser.Input.Keyboard.UpDuration(spaceBar)) {
-	    	this.jumps--;
-            this.falling = true;
-            this.dragonGirl.body.allowGravity = true;
-        }
+            //letting go of the UP key pulls dragonGirl down
+            if(Phaser.Input.Keyboard.UpDuration(spaceBar)) {
+	    	    this.jumps--;
+                this.falling = true;
+                this.dragonGirl.body.allowGravity = true;
+            }
         
-        //gliding
-        if(this.jumps <= 0 && this.falling && spaceBar.isDown) {
-            this.dragonGirl.body.velocity.y = this.GLIDE_VELOCITY;
-            this.dragonGirl.body.allowGravity = false;
-        }
+            //gliding
+            if(this.jumps <= 0 && this.falling && spaceBar.isDown) {
+                this.dragonGirl.body.velocity.y = this.GLIDE_VELOCITY;
+                this.dragonGirl.body.allowGravity = false;
+            }
+            
+        //GAMEOVER 
+        } else {
+            this.add.image(game.config.width/2, game.config.height/2, 'gameover', this.scoreConfig).setOrigin(0.5).setScale(.45);
+             if (spaceBar.isDown) {
+
+            // this.clock=this.time.delayedCall(3000,()=>{
+            //    this.restartIsReady=true;
+            // }, null,this);
+            //newDelay();
+    
+            // if (spaceBar.isDown && this.restartIsReady==true) {
+            this.scene.start(Runner.js); //restarts game
+    
+            }
+        } 
     }
-
+        // newDelay(){
+        //   //  this.add.image(game.config.width/2, game.config.height/2, 'gameover', this.scoreConfig).setOrigin(0.5).setScale(.45);
+        //     this.clock=this.time.delayedCall(3000,()=>{
+        //        this.restartIsReady=true;
+        //     }, null,this);
+        // }
 }
