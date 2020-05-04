@@ -11,13 +11,12 @@ class Runner extends Phaser.Scene {
 
     create() {
 
-     //let gameoverMusic = this.sound.add('gameoverMusic');
-     //gameoverMusic.play(); 
-
-
+        //WHY WONT THE MUSIC WORK
+        //let gameoverMusic = this.sound.add('gameoverMusic');
+        //gameoverMusic.play(); 
        //play music
-       //music = this.sound.add('playMusic');
-       //music.play( {loop:true} );
+       music = this.sound.add('playMusic');
+       music.play( {loop:true} );
        //  console.log(this);
        // console.log(crashSound);
        //  let crash = this.sound.add('crashSound');
@@ -26,20 +25,19 @@ class Runner extends Phaser.Scene {
        
         // variables and settings
         this.gameOver = false;
+        this.restartIsReady=false; //delay for game over screen 
         this.JUMP_VELOCITY = -500;
         this.GLIDE_VELOCITY = 0;
         this.SCROLL_SPEED = 7;
         this.physics.world.gravity.y = 2600;
-
         this.obstacleSpeed = -250;
         this.ObstacleSpeedMax= -1000;
-       // this.OBSTACLE_VELOCITY = -45;
-
+        // this.OBSTACLE_VELOCITY = -45;
         this.planetSpeed = 0.6;
-        this.moonSpeed = -0.3;
-        
-        //restart
-        this.restartIsReady=false; 
+        this.moonSpeed = -0.1;
+
+        //spacebar as input
+        spaceBar= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);        
       
         // add background tile sprite
         this.space = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0);
@@ -50,12 +48,10 @@ class Runner extends Phaser.Scene {
         this.planet.tileScaleY= 5;
         this.planet.tileScaleX= 5;
         //add moon
-        this.moon = this.add.tileSprite(200, 0, 600, 600, 'moon').setOrigin(0).setScale(.2);  //NEW
+        this.moon = this.add.tileSprite(game.config.width, 30, 600, 600, 'moon').setOrigin(0).setScale(.2);  //NEW
         this.moon.tileScaleY= 5;
         this.moon.tileScaleX= 5;
       
-        // this.fire =  this.add.tileSprite(0, 0, game.config.width, game.config.height, 'fire').setOrigin(0).setScale(.2); 
-       
     	//add score background
     	this.cloud = this.add.sprite(115, 40, 'cloud');
     	//add score text
@@ -79,7 +75,7 @@ class Runner extends Phaser.Scene {
         // set up dragonGirl
         this.dragonGirl = this.physics.add.sprite(120, game.config.height/2-tileSize, 'dragonGirl').setOrigin(0,0);
         this.dragonGirl.body.setSize(85,115);
-       this.dragonGirl.body.offset.x = -1;
+        this.dragonGirl.body.offset.x = -1;
 
         //animation config for dragonGirl
         this.anims.create({
@@ -88,12 +84,9 @@ class Runner extends Phaser.Scene {
             frameRate: 30
         });
 
-        //spacebar as input
-        spaceBar= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
         //set up obstacle group and add first obstacle to kick things off
         this.obstacleGroup = this.add.group({
-            runChildUpdate: true                 //make sure update runs on group children
+            runChildUpdate: true   //make sure update runs on group children
         });
         this.addObstacle();
         
@@ -129,18 +122,6 @@ class Runner extends Phaser.Scene {
     }
 
     checkCollision(A, B) {
-        //simple AABB checking
-        /*
-        if (A.x < B.x + B.width &&
-            A.x + A.width > B.x &&
-            A.y < B.y + B.height+1 && 
-            A.height + A.y >= B.y+1) {
-                return true;
-            } else {
-                return false;
-            }
-            */
-        
         // modified Nathan's AABB checking for modified sprite/image bodies
         if (A.x < B.x + B.displayWidth &&
             A.x + A.displayWidth > B.x &&
@@ -241,18 +222,24 @@ class Runner extends Phaser.Scene {
             
         //GAMEOVER 
         } else {
+            //change music
+            music.stop();
+            //music = this.sound.add('gameOverMusic');
+            //music.play( {loop:true} );
+
             //display game over screen
             this.add.image(game.config.width/2, game.config.height/2, 'gameover', this.scoreConfig).setOrigin(0.5).setScale(.45);
         
-            //restarting to game beginning is possible after 3 sec delay
+            //restarting to game beginning is possible after 2 sec delay
             this.inputDelay();
             if (spaceBar.isDown && this.restartIsReady==true) {
+                music.stop();
                 this.scene.start(Runner.js); //restarts game
             }
         } 
     }
         inputDelay(){
-            this.clock=this.time.delayedCall(3000,()=>{
+            this.clock=this.time.delayedCall(2000,()=>{
                     this.restartIsReady=true;
             }, null,this);
         }

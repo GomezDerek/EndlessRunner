@@ -8,7 +8,7 @@
 //                   Gabrielle Serna C:                      //
 //                   Derek Gomez ;P                          //
 //                                                           //
-//  Created for:     CMPM 163 Game Design Experience         //
+//  Created for:     CMPM 120 Game Design Experience         //
 //                   UCSC Spring 2020                        //     
 //                                                           //                      
 ///////////////////////////////////////////////////////////////
@@ -25,11 +25,6 @@
 //            cbulosann@gmail.com                            //
 //                                                           //       
 ///////////////////////////////////////////////////////////////
-
-
-
-
-
 
 // "tame the javashrek" - Nathan Altice
 "use strict";

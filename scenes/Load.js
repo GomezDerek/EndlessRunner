@@ -23,17 +23,15 @@ class Load extends Phaser.Scene {
         this.load.image('cloud', 'scorebg.png');
         this.load.image('menu', 'menuScreenCorrect.png');        
 
-
-
         //this.load.spritesheet('fly', 'Dragongirlspritesheet.PNG', {frameWidth:120, frameHeight:120, startFrame:0, endFrame:5});
         this.load.spritesheet('fly', 'Dragongirlspritesheet_crop.png', {frameWidth:85, frameHeight:120, startFrame:0, endFrame:5});
 
         //load music
-      /*  this.load.audio('menuMusic', 'Divinity.mp3');
-        this.load.audio('playMusic', 'Forest Fracas.mp3');
-        this.load.audio('gameOverMusic', 'The Icarus Requiem (main theme).mp3');
-*/      this.load.audio('menuMusic', 'dragonLadyTheme.wav');
-        this.load.audio('gameoverMusic', 'LunasOdysseyGameOverSound.wav');
+        //this.load.audio('menuMusic', 'Divinity.mp3');
+        this.load.audio('playMusic', 'dragonLadyTheme.wav');
+        //this.load.audio('gameOverMusic', 'The Icarus Requiem (main theme).mp3');
+        this.load.audio('menuMusic', 'Luna\'sOdysseyMenu.wav');
+        this.load.audio('gameOverMusic', 'LunasOdysseyGameOverSound.wav');
         
         //crash sound 
        // this.load.audio('crashSound', 'explosion38.wav');  
