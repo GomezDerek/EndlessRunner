@@ -10,7 +10,6 @@ class Load extends Phaser.Scene {
         this.load.image('groundScroll', 'ground.png');
         this.load.image('dragonGirl', 'dragongirl.png');
         this.load.image('background', 'background pink stars.png');
-        this.load.image('menu', 'new_menu_screen.png');
         this.load.image('obstacle', 'dragonGirl.png');
         this.load.image('upGem', 'upwards gem.png');
         this.load.image('downGem', 'downwards gem.png');
@@ -21,7 +20,8 @@ class Load extends Phaser.Scene {
         this.load.image('moon', 'moon.png');
         this.load.image('gameover', 'gameoverscreen.png');
         this.load.image('fire', 'fire-orange.png');
-	    this.load.image('cloud', 'scorebg.png');        
+        this.load.image('cloud', 'scorebg.png');
+        this.load.image('menu', 'menuScreenCorrect.png');        
 
 
 
@@ -33,8 +33,9 @@ class Load extends Phaser.Scene {
         this.load.audio('playMusic', 'Forest Fracas.mp3');
         this.load.audio('gameOverMusic', 'The Icarus Requiem (main theme).mp3');
 */      this.load.audio('menuMusic', 'dragonLadyTheme.wav');
-
-      //crash sound 
+        this.load.audio('gameoverMusic', 'LunasOdysseyGameOverSound.wav');
+        
+        //crash sound 
        // this.load.audio('crashSound', 'explosion38.wav');  
     }
 
@@ -52,7 +53,7 @@ class Load extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(spaceBar) && !Phaser.Input.Keyboard.UpDuration(spaceBar, 3000)) {
-            //music.stop();
+            music.stop();
             this.scene.start("runnerScene");
         }
     }

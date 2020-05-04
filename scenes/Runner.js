@@ -10,6 +10,11 @@ class Runner extends Phaser.Scene {
     }
 
     create() {
+
+     //let gameoverMusic = this.sound.add('gameoverMusic');
+     //gameoverMusic.play(); 
+
+
        //play music
        //music = this.sound.add('playMusic');
        //music.play( {loop:true} );
@@ -23,7 +28,7 @@ class Runner extends Phaser.Scene {
         this.gameOver = false;
         this.JUMP_VELOCITY = -500;
         this.GLIDE_VELOCITY = 0;
-        this.SCROLL_SPEED = 4;
+        this.SCROLL_SPEED = 7;
         this.physics.world.gravity.y = 2600;
 
         this.obstacleSpeed = -250;
@@ -41,7 +46,7 @@ class Runner extends Phaser.Scene {
         this.space.tileScaleX = .25;
         this.space.tileScaleY = .25;
         // add background planet
-        this.planet = this.add.tileSprite(600, 0, 600, 600, 'planet').setOrigin(0).setScale(.2);  //NEW
+        this.planet = this.add.tileSprite(600, game.config.height/3, 600, 600, 'planet').setOrigin(0).setScale(.7);  //NEW
         this.planet.tileScaleY= 5;
         this.planet.tileScaleX= 5;
         //add moon
@@ -73,6 +78,8 @@ class Runner extends Phaser.Scene {
 
         // set up dragonGirl
         this.dragonGirl = this.physics.add.sprite(120, game.config.height/2-tileSize, 'dragonGirl').setOrigin(0,0);
+        this.dragonGirl.body.setSize(85,115);
+       this.dragonGirl.body.offset.x = -1;
 
         //animation config for dragonGirl
         this.anims.create({
@@ -133,6 +140,8 @@ class Runner extends Phaser.Scene {
                 return false;
             }
             */
+        
+        // modified Nathan's AABB checking for modified sprite/image bodies
         if (A.x < B.x + B.displayWidth &&
             A.x + A.displayWidth > B.x &&
             A.y < B.y + B.displayHeight && 
@@ -142,9 +151,6 @@ class Runner extends Phaser.Scene {
             else {
                 return false;
             }
-            
-            //if there is a collion between dragon/obstacle trigger gameOver()
-           //game.config.physics.arcade.collide(this.dragonGirl, this.obstacleGroup, this.gameOver, null, this);
     }
     
     gameOver() {
@@ -153,7 +159,7 @@ class Runner extends Phaser.Scene {
 
     }
 
-    //resetting planet/moon
+    //resetting planet/moon to wrap edges
     resetPlanet(){
         this.planet.x = 0 - this.planet.displayWidth;
     }
@@ -175,7 +181,8 @@ class Runner extends Phaser.Scene {
         console.log("Dragon girl box: " + this.dragonGirl.body);
         */
         //console.log(this);
-        
+
+
 
         if(this.gameOver == false) {
             //scroll background planet & moon
@@ -234,24 +241,19 @@ class Runner extends Phaser.Scene {
             
         //GAMEOVER 
         } else {
+            //display game over screen
             this.add.image(game.config.width/2, game.config.height/2, 'gameover', this.scoreConfig).setOrigin(0.5).setScale(.45);
-             if (spaceBar.isDown) {
-
-            // this.clock=this.time.delayedCall(3000,()=>{
-            //    this.restartIsReady=true;
-            // }, null,this);
-            //newDelay();
-    
-            // if (spaceBar.isDown && this.restartIsReady==true) {
-            this.scene.start(Runner.js); //restarts game
-    
+        
+            //restarting to game beginning is possible after 3 sec delay
+            this.inputDelay();
+            if (spaceBar.isDown && this.restartIsReady==true) {
+                this.scene.start(Runner.js); //restarts game
             }
         } 
     }
-        // newDelay(){
-        //   //  this.add.image(game.config.width/2, game.config.height/2, 'gameover', this.scoreConfig).setOrigin(0.5).setScale(.45);
-        //     this.clock=this.time.delayedCall(3000,()=>{
-        //        this.restartIsReady=true;
-        //     }, null,this);
-        // }
+        inputDelay(){
+            this.clock=this.time.delayedCall(3000,()=>{
+                    this.restartIsReady=true;
+            }, null,this);
+        }
 }

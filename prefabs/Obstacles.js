@@ -12,6 +12,7 @@ class Obstacles extends Phaser.Physics.Arcade.Sprite {
         this.setVelocityX(velocity);                     // make it go!
         this.setImmovable();
         this.newObstacle = true;                        // custom property to control obstacle spawning
+        this.scaleX = 1.5;
   
         this.scene = scene;
         this.velocity = velocity;
