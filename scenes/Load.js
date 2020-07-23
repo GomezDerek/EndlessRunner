@@ -31,7 +31,7 @@ class Load extends Phaser.Scene {
         this.load.audio('playMusic', 'dragonLadyTheme.wav');
         //this.load.audio('gameOverMusic', 'The Icarus Requiem (main theme).mp3');
         this.load.audio('menuMusic', 'Luna\'sOdysseyMenu.wav');
-        this.load.audio('gameOverMusic', 'LunasOdysseyGameOverSound.wav');
+        this.load.audio('gameOverMusic', 'Luna\'sOdysseyGameOverSound.wav');
         
         //crash sound 
        // this.load.audio('crashSound', 'explosion38.wav');  

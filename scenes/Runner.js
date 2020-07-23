@@ -10,13 +10,14 @@ class Runner extends Phaser.Scene {
     }
 
     create() {
-
+        console.log("Runner scene has started!");
         //WHY WONT THE MUSIC WORK
         //let gameoverMusic = this.sound.add('gameoverMusic');
         //gameoverMusic.play(); 
        //play music
        music = this.sound.add('playMusic');
-       music.play( {loop:true} );
+       music.play( {volume: .5, loop:true} );
+       this.endmusic = this.sound.add('gameOverMusic');
        //  console.log(this);
        // console.log(crashSound);
        //  let crash = this.sound.add('crashSound');
@@ -25,6 +26,7 @@ class Runner extends Phaser.Scene {
        
         // variables and settings
         this.gameOver = false;
+        this.gameOverDisplayed = false;
         this.restartIsReady=false; //delay for game over screen 
         this.JUMP_VELOCITY = -500;
         this.GLIDE_VELOCITY = 0;
@@ -35,6 +37,7 @@ class Runner extends Phaser.Scene {
         // this.OBSTACLE_VELOCITY = -45;
         this.planetSpeed = 0.6;
         this.moonSpeed = -0.1;
+        
 
         //spacebar as input
         spaceBar= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);        
@@ -54,8 +57,24 @@ class Runner extends Phaser.Scene {
       
     	//add score background
     	this.cloud = this.add.sprite(115, 40, 'cloud');
-    	//add score text
-    	this.space = this.add.text(22, 24, 'Score: 0' , { fontSize: '32px', fill: '#000' });
+        //add score text
+        this.score = 0;
+    	this.space = this.add.text(22, 24, 'Score: ' + this.score , { fontSize: '32px', fill: '#000' });
+
+        //create score timer that adds 10 to score every tenth of second
+        this.scoreTimer = this.time.addEvent({
+            delay: 100,
+            callback: () => {
+                this.score += 1;
+                this.space.setText('Score: ' + this.score);
+            },
+            callbackScope: this,
+            loop: true
+        })
+        //this.scoreTimer.start();
+        console.log(this.scoreTimer);
+
+
 
         // make ground tiles group
         this.ground = this.add.group();
@@ -73,9 +92,12 @@ class Runner extends Phaser.Scene {
         this.groundScroll.scaleY = 2;
 
         // set up dragonGirl
-        this.dragonGirl = this.physics.add.sprite(120, game.config.height/2-tileSize, 'dragonGirl').setOrigin(0,0);
+        this.dragonGirl = this.physics.add.sprite(120, game.config.height/2-tileSize, 'dragonGirl');
         this.dragonGirl.body.setSize(85,115);
-        this.dragonGirl.body.offset.x = -1;
+        //this.dragonGirl.body.setSize(50, 115);
+        this.dragonGirl.body.offset.x = -1; //adjust hitbox after resizing sprite
+        this.dragonGirl.setOrigin(0,0);
+        this.dragonGirl.body.immovable = true;
 
         //animation config for dragonGirl
         this.anims.create({
@@ -94,7 +116,7 @@ class Runner extends Phaser.Scene {
         // add physics colliders
         this.physics.add.collider(this.dragonGirl, this.ground);
         this.dragonGirl.body.collideWorldBounds = true;
-        //this.physics.add.collider(this.dragonGirl, this.obstacleGroup.children.entries);
+        this.physics.add.collider(this.dragonGirl, this.obstacleGroup.children.entries);
 
         // score display
         this.scoreConfig = {
@@ -111,9 +133,11 @@ class Runner extends Phaser.Scene {
         }
 
         // debugging
-        //spriteHeight = this.dragonGirl.
+        console.log(this.dragonGirl);
 
+        
     }
+    //end of create
 
     addObstacle() {
         let obstacle = new Obstacles(this, this.obstacleSpeed); //create new obstacle
@@ -123,12 +147,19 @@ class Runner extends Phaser.Scene {
 
     checkCollision(A, B) {
         // modified Nathan's AABB checking for modified sprite/image bodies
-        if (A.x < B.x + B.displayWidth &&
-            A.x + A.displayWidth > B.x &&
-            A.y < B.y + B.displayHeight && 
-            A.displayHeight + A.y > B.y) {
+        if (A.body.x <= B.body.x + B.body.width &&
+            A.body.x + A.body.width >= B.body.x &&
+            A.body.y <= B.body.y + B.body.height && 
+            A.body.height + A.body.y >= B.body.y) {
+        // if (A.x < B.x + B.displayWidth &&
+        //     A.x + A.displayWidth > B.x &&
+        //     A.y < B.y + B.displayHeight && 
+        //     A.displayHeight + A.y > B.y) {               
                return true;
             } 
+        // else if (A.body.checkCollision.right && B.body) {
+        //     return true;
+        // }
             else {
                 return false;
             }
@@ -148,9 +179,20 @@ class Runner extends Phaser.Scene {
         this.moon.x  = game.config.width;
     }
 
+    //freeze Luna the dragonGirl and the obstacles in place
+    freezeAll() {
+        //dragongirl freezes in place
+        this.dragonGirl.body.velocity.y = 0; 
+        this.dragonGirl.body.allowGravity = false;
+        //this.obstacleSpeed = 0; //freeze obstacles in place!
+        this.obstacleGroup.children.entries.forEach(obstacleChild => obstacleChild.setVelocityX(0)); 
+        
+    }
 
     update() {
+        //console.log(this.dragonGirl.y);
         //debugging area
+        //console.log(this.score);
        // console.log(this.obstacleGroup.children.entries.map( obst => this.checkCollision(this.dragonGirl, obst)).find(element => element == true));
         //console.log(this.obstacleGroup.children.entries);
         //console.log(this.dragonGirl);
@@ -180,8 +222,14 @@ class Runner extends Phaser.Scene {
             // collsion check
             // check obstacleGroup children's collsions against character sprite
             if( this.obstacleGroup.children.entries.map( obst => this.checkCollision(this.dragonGirl, obst)).find(element => element == true)){
+             /*
+            if(this.dragonGirl.body.wasTouching.right
+                || (this.dragonGirl.body.touching.down && this.dragonGirl.y < 360)
+                || this.dragonGirl.body.touching.top) {
+            */
                 //GAMEOVER!!!
                 this.gameOver = true;    
+                this.freezeAll();
             }
          
 
@@ -222,25 +270,39 @@ class Runner extends Phaser.Scene {
             
         //GAMEOVER 
         } else {
+
+            if(!this.gameOverDisplayed) {
+                this.freezeAll();
+            }
+
+            //stop scoretimer 
+            this.scoreTimer.destroy();
             //change music
             music.stop();
-            //music = this.sound.add('gameOverMusic');
-            //music.play( {loop:true} );
-
-            //display game over screen
-            this.add.image(game.config.width/2, game.config.height/2, 'gameover', this.scoreConfig).setOrigin(0.5).setScale(.45);
-        
-            //restarting to game beginning is possible after 2 sec delay
-            this.inputDelay();
+            if(!this.gameOverDisplayed) {
+                this.endmusic.play( {loop:true} );
+                this.gameOverDisplayed = true;
+            }
+            //game over screen and restarting to game beginning is possible after 2 sec dlay
+            if(!this.restartIsReady) {
+                this.inputDelay();
+            }
             if (spaceBar.isDown && this.restartIsReady==true) {
-                music.stop();
+                console.log("Restarting...");
+                this.endmusic.stop();
+                this.gameOverScreen.alpha = 0; //erase gameOver screen
                 this.scene.start(Runner.js); //restarts game
             }
         } 
     }
         inputDelay(){
+            console.log("Input delay called!");
             this.clock=this.time.delayedCall(2000,()=>{
+                console.log("Input delay executed");
                     this.restartIsReady=true;
+                    //display game over screen
+                    this.gameOverScreen = this.add.image(game.config.width/2, game.config.height/2, 'gameover', this.scoreConfig).setOrigin(0.5).setScale(.45);
+                    this.gameOverScreen.alpha =1;
             }, null,this);
         }
 }
